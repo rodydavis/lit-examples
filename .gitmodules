@@ -31,9 +31,6 @@
 [submodule "lit-native"]
 	path = lit-native
 	url = https://github.com/rodydavis/lit-native
-[submodule "lit-calculator"]
-	path = lit-calculator
-	url = https://github.com/rodydavis/lit-calculator
 [submodule "html-editor"]
 	path = html-editor
 	url = https://github.com/rodydavis/html-editor
