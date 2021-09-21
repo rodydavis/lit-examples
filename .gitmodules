@@ -22,3 +22,21 @@
 [submodule "flutter_hybrid_template"]
 	path = flutter_hybrid_template
 	url = https://github.com/rodydavis/flutter_hybrid_template
+[submodule "lit-3d-piano"]
+	path = lit-3d-piano
+	url = https://github.com/rodydavis/lit-3d-piano
+[submodule "vite-rxdb-lit"]
+	path = vite-rxdb-lit
+	url = https://github.com/rodydavis/vite-rxdb-lit
+[submodule "lit-native"]
+	path = lit-native
+	url = https://github.com/rodydavis/lit-native
+[submodule "lit-calculator"]
+	path = lit-calculator
+	url = https://github.com/rodydavis/lit-calculator
+[submodule "html-editor"]
+	path = html-editor
+	url = https://github.com/rodydavis/html-editor
+[submodule "lit-node-editor"]
+	path = lit-node-editor
+	url = https://github.com/rodydavis/lit-node-editor
