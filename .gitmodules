@@ -1,0 +1,24 @@
+[submodule "lit-code-editor"]
+	path = lit-code-editor
+	url = https://github.com/rodydavis/lit-code-editor
+[submodule "lit-vscode-extension"]
+	path = lit-vscode-extension
+	url = https://github.com/rodydavis/lit-vscode-extension
+[submodule "lit-draggable-dom"]
+	path = lit-draggable-dom
+	url = https://github.com/rodydavis/lit-draggable-dom
+[submodule "lit-sheet-music"]
+	path = lit-sheet-music
+	url = https://github.com/rodydavis/lit-sheet-music
+[submodule "lit-html-table"]
+	path = lit-html-table
+	url = https://github.com/rodydavis/lit-html-table
+[submodule "lit-html-editor"]
+	path = lit-html-editor
+	url = https://github.com/rodydavis/lit-html-editor
+[submodule "figma_lit_example"]
+	path = figma_lit_example
+	url = https://github.com/rodydavis/figma_lit_example
+[submodule "flutter_hybrid_template"]
+	path = flutter_hybrid_template
+	url = https://github.com/rodydavis/flutter_hybrid_template
