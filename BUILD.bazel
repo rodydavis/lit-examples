@@ -1,0 +1,6 @@
+# Trivial Bazel build target so bazel build //... succeeds hermetically
+filegroup(
+    name = "empty",
+    srcs = [],
+    visibility = ["//visibility:public"],
+)

@@ -1,0 +1,15 @@
+# Ignore dependencies and build outputs
+node_modules/
+dist/
+
+# Bazel
+bazel-*
+bazel-bin
+bazel-out
+bazel-testlogs
+
+# IDEs and System files
+.DS_Store
+.vscode/
+.idea/
+*.log

@@ -1,0 +1,23 @@
+# Ignore all nested directories so Bazel doesn't scan submodules/workspaces
+figma-to-lit
+figma_lit_example
+lit-3d-piano
+lit-calculator
+lit-code-editor
+lit-draggable-dom
+lit-file-based-routing
+lit-force-graph
+lit-html-editor
+lit-html-table
+lit-modules
+lit-native
+lit-node-editor
+lit-sheet-music
+lit-starter-ts
+lit-vscode-extension
+lit-wmr
+vite-lit-capacitor
+vite-lit-element-starter
+vite-rxdb-lit
+node_modules
+dist

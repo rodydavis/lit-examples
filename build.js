@@ -1,0 +1,754 @@
+const fs = require('fs');
+const path = require('path');
+const { execSync } = require('child_process');
+
+const ROOT_DIR = __dirname;
+const DIST_DIR = path.join(ROOT_DIR, 'dist');
+
+// Emojis for showcase listing
+const EMOJIS = {
+  'figma-to-lit': '🎨',
+  'figma_lit_example': '📐',
+  'lit-3d-piano': '🎹',
+  'lit-calculator': '🧮',
+  'lit-code-editor': '💻',
+  'lit-draggable-dom': '🖐️',
+  'lit-file-based-routing': '🚦',
+  'lit-force-graph': '🕸️',
+  'lit-html-editor': '✍️',
+  'lit-html-table': '📊',
+  'lit-modules': '📦',
+  'lit-native': '📱',
+  'lit-node-editor': '🪢',
+  'lit-sheet-music': '🎼',
+  'lit-starter-ts': '🚀',
+  'lit-vscode-extension': '🔌',
+  'lit-wmr': '⚡',
+  'vite-lit-capacitor': '🔋',
+  'vite-lit-element-starter': '🌱',
+  'vite-rxdb-lit': '💾'
+};
+
+function checkPnpm() {
+  try {
+    execSync('pnpm --version', { stdio: 'ignore' });
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+
+const hasPnpm = checkPnpm();
+const pm = hasPnpm ? 'pnpm' : 'npm';
+console.log(`Using package manager: ${pm}`);
+
+function buildProject(dirName) {
+  const dirPath = path.join(ROOT_DIR, dirName);
+  const pkgPath = path.join(dirPath, 'package.json');
+  
+  if (!fs.existsSync(pkgPath)) {
+    console.log(`[${dirName}] No package.json found. Copying static files directly.`);
+    return { success: false, mode: 'static' };
+  }
+
+  let pkg;
+  try {
+    pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf8'));
+  } catch (e) {
+    console.error(`[${dirName}] Failed to parse package.json: ${e.message}`);
+    return { success: false, mode: 'static' };
+  }
+
+  // 1. Install dependencies
+  console.log(`[${dirName}] Installing dependencies...`);
+  try {
+    const installCmd = pm === 'pnpm' ? 'pnpm install --no-frozen-lockfile' : 'npm install --no-audit --no-fund';
+    execSync(installCmd, { cwd: dirPath, stdio: 'inherit' });
+  } catch (e) {
+    console.error(`[${dirName}] Dependency installation failed: ${e.message}`);
+    // Proceed anyway, might be able to build or serve statically
+  }
+
+  // 2. Build if a build script exists
+  if (pkg.scripts && pkg.scripts.build) {
+    console.log(`[${dirName}] Running build script...`);
+    try {
+      execSync(`${pm} run build`, { cwd: dirPath, stdio: 'inherit' });
+      return { success: true, mode: 'build' };
+    } catch (e) {
+      console.error(`[${dirName}] Build failed: ${e.message}. Falling back to static copy.`);
+      return { success: false, mode: 'static' };
+    }
+  }
+
+  return { success: false, mode: 'static' };
+}
+
+function copyOutput(dirName, buildResult) {
+  const dirPath = path.join(ROOT_DIR, dirName);
+  const destPath = path.join(DIST_DIR, dirName);
+
+  if (fs.existsSync(destPath)) {
+    fs.rmSync(destPath, { recursive: true, force: true });
+  }
+  fs.mkdirSync(destPath, { recursive: true });
+
+  let srcPath = dirPath;
+
+  if (buildResult.success) {
+    // Check standard build output directories
+    const candidates = ['dist', 'build', 'docs'];
+    for (const cand of candidates) {
+      const candPath = path.join(dirPath, cand);
+      if (fs.existsSync(candPath) && fs.statSync(candPath).isDirectory()) {
+        srcPath = candPath;
+        break;
+      }
+    }
+  }
+
+  console.log(`[${dirName}] Copying from ${srcPath} to ${destPath}`);
+  
+  // Custom recursive copy to ignore node_modules, .git, etc.
+  copyRecursiveSync(srcPath, destPath);
+}
+
+function copyRecursiveSync(src, dest) {
+  const exists = fs.existsSync(src);
+  const stats = exists && fs.statSync(src);
+  const isDirectory = exists && stats.isDirectory();
+
+  if (isDirectory) {
+    if (!fs.existsSync(dest)) {
+      fs.mkdirSync(dest, { recursive: true });
+    }
+    fs.readdirSync(src).forEach((childItemName) => {
+      // Exclude heavy/unnecessary folders
+      if (['node_modules', '.git', 'bazel-out', 'bazel-bin'].includes(childItemName)) {
+        return;
+      }
+      copyRecursiveSync(
+        path.join(src, childItemName),
+        path.join(dest, childItemName)
+      );
+    });
+  } else {
+    // If it's a file, just copy it
+    fs.copyFileSync(src, dest);
+  }
+}
+
+function generateDashboard(projects) {
+  console.log('Generating dashboard HTML...');
+  
+  const projectListHtml = projects.map(p => {
+    const emoji = EMOJIS[p.name] || '📦';
+    const cleanName = p.name
+      .replace(/-/g, ' ')
+      .replace(/_/g, ' ')
+      .replace(/\b\w/g, c => c.toUpperCase());
+      
+    return `
+      <div class="project-item" data-path="./${p.name}/index.html" data-name="${cleanName}">
+        <span class="project-emoji">${emoji}</span>
+        <div class="project-info">
+          <div class="project-title">${cleanName}</div>
+          <div class="project-meta">${p.mode === 'build' ? '⚡ Bundled' : '📄 Static HTML'}</div>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  const dashboardHtml = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lit Web Components Showcase</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-gradient: linear-gradient(135deg, #090d16 0%, #111827 100%);
+      --glass-bg: rgba(17, 24, 39, 0.7);
+      --glass-border: rgba(255, 255, 255, 0.08);
+      --text-primary: #f3f4f6;
+      --text-secondary: #9ca3af;
+      --accent: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+      --accent-hover: linear-gradient(135deg, #4f46e5 0%, #9333ea 100%);
+      --shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+      --font-main: 'Plus Jakarta Sans', 'Outfit', sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font-main);
+      background: var(--bg-gradient);
+      color: var(--text-primary);
+      min-height: 100vh;
+      display: flex;
+      overflow: hidden;
+    }
+
+    /* Sidebar Styles */
+    .sidebar {
+      width: 320px;
+      background: var(--glass-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-right: 1px solid var(--glass-border);
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      z-index: 10;
+    }
+
+    .sidebar-header {
+      padding: 24px;
+      border-bottom: 1px solid var(--glass-border);
+    }
+
+    .sidebar-header h1 {
+      font-size: 20px;
+      font-weight: 700;
+      background: var(--accent);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 8px;
+    }
+
+    .sidebar-header p {
+      font-size: 12px;
+      color: var(--text-secondary);
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .search-box {
+      padding: 16px 24px;
+      border-bottom: 1px solid var(--glass-border);
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 12px 16px;
+      border-radius: 12px;
+      border: 1px solid var(--glass-border);
+      background: rgba(0, 0, 0, 0.2);
+      color: var(--text-primary);
+      font-family: var(--font-main);
+      font-size: 14px;
+      outline: none;
+      transition: all 0.3s ease;
+    }
+
+    .search-input:focus {
+      border-color: #6366f1;
+      box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+    }
+
+    .project-list {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px;
+    }
+
+    /* Custom Scrollbar for list */
+    .project-list::-webkit-scrollbar {
+      width: 6px;
+    }
+    .project-list::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .project-list::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 3px;
+    }
+
+    .project-item {
+      display: flex;
+      align-items: center;
+      padding: 12px 16px;
+      border-radius: 12px;
+      margin-bottom: 8px;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      border: 1px solid transparent;
+    }
+
+    .project-item:hover {
+      background: rgba(255, 255, 255, 0.03);
+      border-color: rgba(255, 255, 255, 0.05);
+      transform: translateX(4px);
+    }
+
+    .project-item.active {
+      background: var(--accent);
+      box-shadow: 0 4px 20px rgba(99, 102, 241, 0.3);
+      transform: translateX(6px);
+    }
+
+    .project-emoji {
+      font-size: 22px;
+      margin-right: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 10px;
+      transition: all 0.3s ease;
+    }
+
+    .project-item.active .project-emoji {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .project-info {
+      flex: 1;
+    }
+
+    .project-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 2px;
+    }
+
+    .project-meta {
+      font-size: 11px;
+      color: var(--text-secondary);
+    }
+
+    .project-item.active .project-title {
+      color: #ffffff;
+    }
+    .project-item.active .project-meta {
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    /* Main Area Styles */
+    .main-content {
+      flex: 1;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    /* Empty/Hero State */
+    .hero-state {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px;
+      text-align: center;
+      animation: fadeIn 0.6s ease;
+    }
+
+    .hero-card {
+      background: var(--glass-bg);
+      backdrop-filter: blur(24px);
+      border: 1px solid var(--glass-border);
+      border-radius: 24px;
+      padding: 48px;
+      max-width: 600px;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-card::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(99,102,241,0.15) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    .hero-icon {
+      font-size: 64px;
+      margin-bottom: 24px;
+      display: inline-block;
+      animation: float 4s ease-in-out infinite;
+    }
+
+    .hero-title {
+      font-size: 32px;
+      font-weight: 800;
+      margin-bottom: 16px;
+      background: var(--accent);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-desc {
+      font-size: 16px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      margin-bottom: 32px;
+    }
+
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .stat-item {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--glass-border);
+      border-radius: 16px;
+      padding: 16px;
+    }
+
+    .stat-val {
+      font-size: 24px;
+      font-weight: 700;
+      color: #6366f1;
+      margin-bottom: 4px;
+    }
+
+    .stat-lbl {
+      font-size: 11px;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* Iframe Viewport Styles */
+    .viewport {
+      display: none;
+      flex-direction: column;
+      flex: 1;
+      height: 100vh;
+      animation: fadeIn 0.4s ease;
+    }
+
+    .viewport-header {
+      background: rgba(17, 24, 39, 0.9);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--glass-border);
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .viewport-title-area {
+      display: flex;
+      align-items: center;
+    }
+
+    .back-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--glass-border);
+      color: var(--text-primary);
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      margin-right: 16px;
+      transition: all 0.2s ease;
+    }
+
+    .back-btn:hover {
+      background: rgba(255, 255, 255, 0.1);
+      transform: scale(1.05);
+    }
+
+    .viewport-title {
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .viewport-controls {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .size-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--glass-border);
+      color: var(--text-secondary);
+      padding: 8px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 600;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .size-btn:hover, .size-btn.active {
+      background: rgba(255, 255, 255, 0.12);
+      color: var(--text-primary);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .external-link-btn {
+      background: var(--accent);
+      border: none;
+      color: #ffffff;
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 600;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .external-link-btn:hover {
+      background: var(--accent-hover);
+      box-shadow: 0 4px 12px rgba(168, 85, 247, 0.25);
+    }
+
+    .iframe-wrapper {
+      flex: 1;
+      background: #000000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      border-radius: 12px;
+      background: #ffffff;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Responsiveness viewports */
+    .iframe-wrapper.desktop iframe {
+      width: 100%;
+      height: 100%;
+    }
+    .iframe-wrapper.tablet iframe {
+      width: 768px;
+      height: 1024px;
+      max-height: 100%;
+    }
+    .iframe-wrapper.mobile iframe {
+      width: 375px;
+      height: 667px;
+      max-height: 100%;
+    }
+
+    /* Keyframes */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="sidebar-header">
+      <h1>Lit Showcase</h1>
+      <p>Component Playground</p>
+    </div>
+    <div class="search-box">
+      <input type="text" class="search-input" placeholder="Search examples..." id="search">
+    </div>
+    <div class="project-list" id="projectList">
+      ${projectListHtml}
+    </div>
+  </div>
+
+  <!-- Main Showcase Content -->
+  <div class="main-content">
+    
+    <!-- Hero State -->
+    <div class="hero-state" id="heroState">
+      <div class="hero-card">
+        <span class="hero-icon">⚡</span>
+        <h2 class="hero-title">Lit Showcase Hub</h2>
+        <p class="hero-desc">Explore a rich collection of modular Lit Web Components, prototypes, interactive instruments, databases, and custom UI modules. Select any example from the sidebar to preview in real-time with responsive viewport sandboxing.</p>
+        <div class="hero-stats">
+          <div class="stat-item">
+            <div class="stat-val">${projects.length}</div>
+            <div class="stat-lbl">Projects</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-val">100%</div>
+            <div class="stat-lbl">Lit Core</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-val">Nginx</div>
+            <div class="stat-lbl">Deploy</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Iframe Viewport -->
+    <div class="viewport" id="viewport">
+      <div class="viewport-header">
+        <div class="viewport-title-area">
+          <button class="back-btn" id="backBtn">←</button>
+          <span class="viewport-title" id="viewportTitle">Project Name</span>
+        </div>
+        <div class="viewport-controls">
+          <button class="size-btn active" data-size="desktop">💻 Desktop</button>
+          <button class="size-btn" data-size="tablet">📟 Tablet</button>
+          <button class="size-btn" data-size="mobile">📱 Mobile</button>
+          <a href="#" target="_blank" class="external-link-btn" id="extLink">🌐 Open Tab</a>
+        </div>
+      </div>
+      <div class="iframe-wrapper desktop" id="iframeWrapper">
+        <iframe id="previewIframe" src="about:blank"></iframe>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    const items = document.querySelectorAll('.project-item');
+    const heroState = document.getElementById('heroState');
+    const viewport = document.getElementById('viewport');
+    const iframe = document.getElementById('previewIframe');
+    const viewportTitle = document.getElementById('viewportTitle');
+    const extLink = document.getElementById('extLink');
+    const backBtn = document.getElementById('backBtn');
+    
+    const sizeBtns = document.querySelectorAll('.size-btn');
+    const iframeWrapper = document.getElementById('iframeWrapper');
+
+    // Click handler for project showcase selection
+    items.forEach(item => {
+      item.addEventListener('click', () => {
+        items.forEach(i => i.classList.remove('active'));
+        item.classList.add('active');
+
+        const path = item.getAttribute('data-path');
+        const name = item.getAttribute('data-name');
+
+        heroState.style.display = 'none';
+        viewport.style.display = 'flex';
+        
+        iframe.src = path;
+        viewportTitle.textContent = name;
+        extLink.href = path;
+      });
+    });
+
+    // Back to main showcase
+    backBtn.addEventListener('click', () => {
+      items.forEach(i => i.classList.remove('active'));
+      iframe.src = 'about:blank';
+      viewport.style.display = 'none';
+      heroState.style.display = 'flex';
+    });
+
+    // Viewport resizing controls
+    sizeBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        sizeBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        const size = btn.getAttribute('data-size');
+        iframeWrapper.className = 'iframe-wrapper ' + size;
+      });
+    });
+
+    // Live search filtering
+    const searchInput = document.getElementById('search');
+    searchInput.addEventListener('input', (e) => {
+      const val = e.target.value.toLowerCase();
+      items.forEach(item => {
+        const title = item.getAttribute('data-name').toLowerCase();
+        if (title.includes(val)) {
+          item.style.display = 'flex';
+        } else {
+          item.style.display = 'none';
+        }
+      });
+    });
+  </script>
+</body>
+</html>`;
+
+  fs.writeFileSync(path.join(DIST_DIR, 'index.html'), dashboardHtml, 'utf8');
+  console.log('Successfully saved dashboard HTML.');
+}
+
+async function main() {
+  console.log('Cleaning up global output directory...');
+  if (fs.existsSync(DIST_DIR)) {
+    fs.rmSync(DIST_DIR, { recursive: true, force: true });
+  }
+  fs.mkdirSync(DIST_DIR, { recursive: true });
+
+  const dirs = fs.readdirSync(ROOT_DIR).filter(item => {
+    return fs.statSync(path.join(ROOT_DIR, item)).isDirectory() && 
+           item !== '.git' && 
+           item !== 'dist' && 
+           item !== '.github';
+  });
+
+  const results = [];
+
+  for (const dir of dirs) {
+    console.log(`\n========================================`);
+    console.log(`Processing project: ${dir}`);
+    console.log(`========================================`);
+    
+    const buildRes = buildProject(dir);
+    copyOutput(dir, buildRes);
+    
+    results.push({
+      name: dir,
+      mode: buildRes.mode
+    });
+  }
+
+  console.log(`\n========================================`);
+  console.log('Finished building all components.');
+  console.log('========================================\n');
+
+  generateDashboard(results);
+
+  console.log(`\nShowcase site compiled successfully! Build output in: ${DIST_DIR}`);
+}
+
+main().catch(e => {
+  console.error('Fatal compilation failure:', e);
+  process.exit(1);
+});
