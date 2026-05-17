@@ -1,165 +1,4 @@
-const fs = require('fs');
-const path = require('path');
-const { execSync } = require('child_process');
-
-const ROOT_DIR = __dirname;
-const DIST_DIR = path.join(ROOT_DIR, 'dist');
-
-// Emojis for showcase listing
-const EMOJIS = {
-  'figma-to-lit': '🎨',
-  'figma_lit_example': '📐',
-  'lit-3d-piano': '🎹',
-  'lit-calculator': '🧮',
-  'lit-code-editor': '💻',
-  'lit-draggable-dom': '🖐️',
-  'lit-file-based-routing': '🚦',
-  'lit-force-graph': '🕸️',
-  'lit-html-editor': '✍️',
-  'lit-html-table': '📊',
-  'lit-modules': '📦',
-  'lit-native': '📱',
-  'lit-node-editor': '🪢',
-  'lit-sheet-music': '🎼',
-  'lit-starter-ts': '🚀',
-  'lit-vscode-extension': '🔌',
-  'lit-wmr': '⚡',
-  'vite-lit-capacitor': '🔋',
-  'vite-lit-element-starter': '🌱',
-  'vite-rxdb-lit': '💾'
-};
-
-function checkPnpm() {
-  try {
-    execSync('pnpm --version', { stdio: 'ignore' });
-    return true;
-  } catch (e) {
-    return false;
-  }
-}
-
-const hasPnpm = checkPnpm();
-const pm = hasPnpm ? 'pnpm' : 'npm';
-console.log(`Using package manager: ${pm}`);
-
-function buildProject(dirName) {
-  const dirPath = path.join(ROOT_DIR, dirName);
-  const pkgPath = path.join(dirPath, 'package.json');
-  
-  if (!fs.existsSync(pkgPath)) {
-    console.log(`[${dirName}] No package.json found. Copying static files directly.`);
-    return { success: false, mode: 'static' };
-  }
-
-  let pkg;
-  try {
-    pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf8'));
-  } catch (e) {
-    console.error(`[${dirName}] Failed to parse package.json: ${e.message}`);
-    return { success: false, mode: 'static' };
-  }
-
-  // 1. Install dependencies
-  console.log(`[${dirName}] Installing dependencies...`);
-  try {
-    const installCmd = pm === 'pnpm' ? 'pnpm install --no-frozen-lockfile' : 'npm install --no-audit --no-fund';
-    execSync(installCmd, { cwd: dirPath, stdio: 'inherit' });
-  } catch (e) {
-    console.error(`[${dirName}] Dependency installation failed: ${e.message}`);
-    // Proceed anyway, might be able to build or serve statically
-  }
-
-  // 2. Build if a build script exists
-  if (pkg.scripts && pkg.scripts.build) {
-    console.log(`[${dirName}] Running build script...`);
-    try {
-      execSync(`${pm} run build`, { cwd: dirPath, stdio: 'inherit' });
-      return { success: true, mode: 'build' };
-    } catch (e) {
-      console.error(`[${dirName}] Build failed: ${e.message}. Falling back to static copy.`);
-      return { success: false, mode: 'static' };
-    }
-  }
-
-  return { success: false, mode: 'static' };
-}
-
-function copyOutput(dirName, buildResult) {
-  const dirPath = path.join(ROOT_DIR, dirName);
-  const destPath = path.join(DIST_DIR, dirName);
-
-  if (fs.existsSync(destPath)) {
-    fs.rmSync(destPath, { recursive: true, force: true });
-  }
-  fs.mkdirSync(destPath, { recursive: true });
-
-  let srcPath = dirPath;
-
-  if (buildResult.success) {
-    // Check standard build output directories
-    const candidates = ['dist', 'build', 'docs'];
-    for (const cand of candidates) {
-      const candPath = path.join(dirPath, cand);
-      if (fs.existsSync(candPath) && fs.statSync(candPath).isDirectory()) {
-        srcPath = candPath;
-        break;
-      }
-    }
-  }
-
-  console.log(`[${dirName}] Copying from ${srcPath} to ${destPath}`);
-  
-  // Custom recursive copy to ignore node_modules, .git, etc.
-  copyRecursiveSync(srcPath, destPath);
-}
-
-function copyRecursiveSync(src, dest) {
-  const exists = fs.existsSync(src);
-  const stats = exists && fs.statSync(src);
-  const isDirectory = exists && stats.isDirectory();
-
-  if (isDirectory) {
-    if (!fs.existsSync(dest)) {
-      fs.mkdirSync(dest, { recursive: true });
-    }
-    fs.readdirSync(src).forEach((childItemName) => {
-      // Exclude heavy/unnecessary folders
-      if (['node_modules', '.git', 'bazel-out', 'bazel-bin'].includes(childItemName)) {
-        return;
-      }
-      copyRecursiveSync(
-        path.join(src, childItemName),
-        path.join(dest, childItemName)
-      );
-    });
-  } else {
-    // If it's a file, just copy it
-    fs.copyFileSync(src, dest);
-  }
-}
-
-function generateDashboard(projects) {
-  console.log('Generating dashboard HTML...');
-  
-  const projectListHtml = projects.map(p => {
-    const emoji = EMOJIS[p.name] || '📦';
-    const cleanName = p.name
-      .replace(/-/g, ' ')
-      .replace(/_/g, ' ')
-      .replace(/\b\w/g, c => c.toUpperCase());
-      
-    return `
-      <div class="project-item" data-path="./${p.name}/index.html" data-name="${cleanName}">
-        <span class="project-emoji">${emoji}</span>
-        <div class="project-info">
-          <div class="project-title">${cleanName}</div>
-          <div class="project-meta">${p.mode === 'build' ? '⚡ Bundled' : '📄 Static HTML'}</div>
-        </div>
-      </div>
-    `;
-  }).join('');
-
-  const dashboardHtml = `<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -260,7 +99,7 @@ function generateDashboard(projects) {
       padding: 16px;
     }
 
-    /* Custom Scrollbar for list */
+    /* Custom Scrollbar */
     .project-list::-webkit-scrollbar {
       width: 6px;
     }
@@ -582,13 +421,173 @@ function generateDashboard(projects) {
   <div class="sidebar">
     <div class="sidebar-header">
       <h1>Lit Showcase</h1>
-      <p>Component Playground</p>
+      <p>Multi-Page App Playground</p>
     </div>
     <div class="search-box">
       <input type="text" class="search-input" placeholder="Search examples..." id="search">
     </div>
     <div class="project-list" id="projectList">
-      ${projectListHtml}
+      
+      <div class="project-item" data-path="./lit-3d-piano/index.html" data-name="Lit 3D Piano">
+        <span class="project-emoji">🎹</span>
+        <div class="project-info">
+          <div class="project-title">Lit 3D Piano</div>
+          <div class="project-meta">WebGL Instrument</div>
+        </div>
+      </div>
+
+      <div class="project-item" data-path="./lit-calculator/docs/index.html" data-name="Lit Calculator">
+        <span class="project-emoji">🧮</span>
+        <div class="project-info">
+          <div class="project-title">Lit Calculator</div>
+          <div class="project-meta">Mathematical Engine</div>
+        </div>
+      </div>
+
+      <div class="project-item" data-path="./lit-code-editor/index.html" data-name="Lit Code Editor">
+        <span class="project-emoji">💻</span>
+        <div class="project-info">
+          <div class="project-title">Lit Code Editor</div>
+          <div class="project-meta">Monaco Editor Integrator</div>
+        </div>
+      </div>
+
+      <div class="project-item" data-path="./lit-draggable-dom/index.html" data-name="Lit Draggable Dom">
+        <span class="project-emoji">🖐️</span>
+        <div class="project-info">
+          <div class="project-title">Lit Draggable Dom</div>
+          <div class="project-meta">Layout Manager</div>
+        </div>
+      </div>
+
+      <div class="project-item" data-path="./lit-file-based-routing/index.html" data-name="Lit File Based Routing">
+        <span class="project-emoji">🚦</span>
+        <div class="project-info">
+          <div class="project-title">Lit File Based Routing</div>
+          <div class="project-meta">Application Router</div>
+        </div>
+      </div>
+
+      <div class="project-item" data-path="./lit-force-graph/index.html" data-name="Lit Force Graph">
+        <span class="project-emoji">🕸️</span>
+        <div class="project-info">
+          <div class="project-title">Lit Force Graph</div>
+          <div class="project-meta">3D Networking Engine</div>
+        </div>
+      </div>
+
+      <div class="project-item" data-path="./lit-html-editor/index.html" data-name="Lit HTML Editor">
+        <span class="project-emoji">✍️</span>
+        <div class="project-info">
+          <div class="project-title">Lit HTML Editor</div>
+          <div class="project-meta">Real-time Markdown & code</div>
+        </div>
+      </div>
+
+      <div class="project-item" data-path="./lit-html-table/index.html" data-name="Lit HTML Table">
+        <span class="project-emoji">📊</span>
+        <div class="project-info">
+          <div class="project-title">Lit HTML Table</div>
+          <div class="project-meta">Spreadsheet Grid View</div>
+        </div>
+      </div>
+
+      <div class="project-item" data-path="./lit-modules/index.html" data-name="Lit Modules">
+        <span class="project-emoji">📦</span>
+        <div class="project-info">
+          <div class="project-title">Lit Modules</div>
+          <div class="project-meta">NPM Packaging Harness</div>
+        </div>
+      </div>
+
+      <div class="project-item" data-path="./lit-native/index.html" data-name="Lit Native">
+        <span class="project-emoji">📱</span>
+        <div class="project-info">
+          <div class="project-title">Lit Native</div>
+          <div class="project-meta">Mobile UI Mockups</div>
+        </div>
+      </div>
+
+      <div class="project-item" data-path="./lit-node-editor/index.html" data-name="Lit Node Editor">
+        <span class="project-emoji">🪢</span>
+        <div class="project-info">
+          <div class="project-title">Lit Node Editor</div>
+          <div class="project-meta">Visual Shader graph</div>
+        </div>
+      </div>
+
+      <div class="project-item" data-path="./lit-sheet-music/index.html" data-name="Lit Sheet Music">
+        <span class="project-emoji">🎼</span>
+        <div class="project-info">
+          <div class="project-title">Lit Sheet Music</div>
+          <div class="project-meta">OSMD Renderer</div>
+        </div>
+      </div>
+
+      <div class="project-item" data-path="./lit-starter-ts" data-name="Lit Starter TS">
+        <span class="project-emoji">🚀</span>
+        <div class="project-info">
+          <div class="project-title">Lit Starter TS</div>
+          <div class="project-meta">TypeScript Project Boilerplate</div>
+        </div>
+      </div>
+
+      <div class="project-item" data-path="./lit-vscode-extension/index.html" data-name="Lit VSCode Extension">
+        <span class="project-emoji">🔌</span>
+        <div class="project-info">
+          <div class="project-title">Lit VSCode Extension</div>
+          <div class="project-meta">Webview Core</div>
+        </div>
+      </div>
+
+      <div class="project-item" data-path="./lit-wmr/public/index.html" data-name="Lit WMR">
+        <span class="project-emoji">⚡</span>
+        <div class="project-info">
+          <div class="project-title">Lit WMR</div>
+          <div class="project-meta">WMR Bundled Prototype</div>
+        </div>
+      </div>
+
+      <div class="project-item" data-path="./vite-lit-capacitor/index.html" data-name="Vite Lit Capacitor">
+        <span class="project-emoji">🔋</span>
+        <div class="project-info">
+          <div class="project-title">Vite Lit Capacitor</div>
+          <div class="project-meta">Hybrid Mobile Container</div>
+        </div>
+      </div>
+
+      <div class="project-item" data-path="./vite-lit-element-starter/index.html" data-name="Vite Lit Element Starter">
+        <span class="project-emoji">🌱</span>
+        <div class="project-info">
+          <div class="project-title">Vite Lit Element Starter</div>
+          <div class="project-meta">Vite Bundled Boilerplate</div>
+        </div>
+      </div>
+
+      <div class="project-item" data-path="./vite-rxdb-lit/index.html" data-name="Vite RxDB Lit">
+        <span class="project-emoji">💾</span>
+        <div class="project-info">
+          <div class="project-title">Vite RxDB Lit</div>
+          <div class="project-meta">Offline Sync Database</div>
+        </div>
+      </div>
+
+      <div class="project-item" data-path="./figma-to-lit/ui.html" data-name="Figma To Lit">
+        <span class="project-emoji">🎨</span>
+        <div class="project-info">
+          <div class="project-title">Figma To Lit</div>
+          <div class="project-meta">Figma Exporter Plugin</div>
+        </div>
+      </div>
+
+      <div class="project-item" data-path="./figma_lit_example/ui.html" data-name="Figma Lit Example">
+        <span class="project-emoji">📐</span>
+        <div class="project-info">
+          <div class="project-title">Figma Lit Example</div>
+          <div class="project-meta">Assembly Figma Plugin</div>
+        </div>
+      </div>
+
     </div>
   </div>
 
@@ -603,12 +602,12 @@ function generateDashboard(projects) {
         <p class="hero-desc">Explore a rich collection of modular Lit Web Components, prototypes, interactive instruments, databases, and custom UI modules. Select any example from the sidebar to preview in real-time with responsive viewport sandboxing.</p>
         <div class="hero-stats">
           <div class="stat-item">
-            <div class="stat-val">${projects.length}</div>
+            <div class="stat-val">20</div>
             <div class="stat-lbl">Projects</div>
           </div>
           <div class="stat-item">
             <div class="stat-val">100%</div>
-            <div class="stat-lbl">Lit Core</div>
+            <div class="stat-lbl">Vite MPA</div>
           </div>
           <div class="stat-item">
             <div class="stat-val">Nginx</div>
@@ -703,52 +702,4 @@ function generateDashboard(projects) {
     });
   </script>
 </body>
-</html>`;
-
-  fs.writeFileSync(path.join(DIST_DIR, 'index.html'), dashboardHtml, 'utf8');
-  console.log('Successfully saved dashboard HTML.');
-}
-
-async function main() {
-  console.log('Cleaning up global output directory...');
-  if (fs.existsSync(DIST_DIR)) {
-    fs.rmSync(DIST_DIR, { recursive: true, force: true });
-  }
-  fs.mkdirSync(DIST_DIR, { recursive: true });
-
-  const dirs = fs.readdirSync(ROOT_DIR).filter(item => {
-    return fs.statSync(path.join(ROOT_DIR, item)).isDirectory() && 
-           item !== '.git' && 
-           item !== 'dist' && 
-           item !== '.github';
-  });
-
-  const results = [];
-
-  for (const dir of dirs) {
-    console.log(`\n========================================`);
-    console.log(`Processing project: ${dir}`);
-    console.log(`========================================`);
-    
-    const buildRes = buildProject(dir);
-    copyOutput(dir, buildRes);
-    
-    results.push({
-      name: dir,
-      mode: buildRes.mode
-    });
-  }
-
-  console.log(`\n========================================`);
-  console.log('Finished building all components.');
-  console.log('========================================\n');
-
-  generateDashboard(results);
-
-  console.log(`\nShowcase site compiled successfully! Build output in: ${DIST_DIR}`);
-}
-
-main().catch(e => {
-  console.error('Fatal compilation failure:', e);
-  process.exit(1);
-});
+</html>
