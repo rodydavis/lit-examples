@@ -1,6 +1,19 @@
-# Trivial Bazel build target so bazel build //... succeeds hermetically
+# Hermetic Bazel build target to verify all files are present
 filegroup(
-    name = "empty",
-    srcs = [],
+    name = "srcs",
+    srcs = [
+        "index.html",
+        "package.json",
+        "pnpm-lock.yaml",
+        "tsconfig.json",
+        "vite.config.js",
+        "//figma_lit_example:srcs",
+        "//figma-to-lit:srcs",
+        "//lit-components:srcs",
+        "//lit-native:srcs",
+        "//lit-showcase:srcs",
+        "//vite-lit-capacitor:srcs",
+        "//vite-lit-element-starter:srcs",
+    ],
     visibility = ["//visibility:public"],
 )
