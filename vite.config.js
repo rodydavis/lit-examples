@@ -7,12 +7,13 @@ const require = createRequire(import.meta.url);
 
 function getHtmlEntries() {
   const entries = {
-    main: resolve(__dirname, 'index.html')
+    root: resolve(__dirname, 'index.html'),
+    main: resolve(__dirname, 'lit-showcase/index.html')
   };
 
   const rootDirs = fs.readdirSync(__dirname);
   for (const dir of rootDirs) {
-    if (['.git', '.github', 'node_modules', 'dist'].includes(dir)) continue;
+    if (['.git', '.github', 'node_modules', 'dist', 'lit-components', 'lit-showcase', 'tests'].includes(dir)) continue;
 
     const fullPath = resolve(__dirname, dir);
     if (!fs.statSync(fullPath).isDirectory()) continue;
@@ -161,6 +162,52 @@ export default defineConfig({
       'lit/decorators': 'lit/decorators.js',
       'lit-element/decorators': 'lit-element/decorators.js'
     }
+  },
+  esbuild: {
+    // Globally enforce useDefineForClassFields: false to prevent class property shadowing
+    // in all TS files across both dev server, Vitest, and production builds.
+    tsconfigRaw: {
+      compilerOptions: {
+        useDefineForClassFields: false
+      }
+    }
+  },
+  optimizeDeps: {
+    // Explicitly pre-bundle Lit core, decorators, directives and MWC components together
+    // to prevent duplicate framework instances and update queue mismatches in Dev server.
+    include: [
+      'lit',
+      'lit/decorators.js',
+      'lit/directives/ref.js',
+      'lit-element',
+      '@material/mwc-button',
+      '@material/mwc-dialog',
+      '@material/mwc-drawer',
+      '@material/mwc-icon',
+      '@material/mwc-icon-button',
+      '@material/mwc-list',
+      '@material/mwc-textfield',
+      '@material/mwc-top-app-bar-fixed'
+    ]
+  },
+  test: {
+    environment: 'happy-dom',
+    globals: true,
+    setupFiles: [resolve(__dirname, 'lit-components/test-support/setup.ts')],
+    include: ['**/*.test.ts', '**/*.spec.ts'],
+    // Use full process forks pool instead of threads to prevent V8 out-of-memory overhead during tests
+    pool: 'forks',
+    isolate: true,
+    alias: [
+      { find: 'monaco-editor/min/vs/editor/editor.main.css', replacement: resolve(__dirname, 'lit-components/test-support/mocks/styles.ts') },
+      { find: /^monaco-editor\/esm\/vs\/.*/, replacement: resolve(__dirname, 'lit-components/test-support/mocks/monaco.ts') },
+      { find: 'monaco-editor', replacement: resolve(__dirname, 'lit-components/test-support/mocks/monaco.ts') },
+      { find: 'three/examples/jsm/controls/OrbitControls', replacement: resolve(__dirname, 'lit-components/test-support/mocks/orbitcontrols.ts') },
+      { find: 'three', replacement: resolve(__dirname, 'lit-components/test-support/mocks/three.ts') },
+      { find: 'tone', replacement: resolve(__dirname, 'lit-components/test-support/mocks/tone.ts') },
+      { find: 'opensheetmusicdisplay', replacement: resolve(__dirname, 'lit-components/test-support/mocks/opensheetmusicdisplay.ts') },
+      { find: 'rxdb', replacement: resolve(__dirname, 'lit-components/test-support/mocks/rxdb.ts') }
+    ]
   },
   build: {
     outDir: 'dist',
