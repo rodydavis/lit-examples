@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/src/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>3D Piano</title>
+    <script type="module" src="/src/piano-component.ts"></script>
+    <style>
+      body {
+        width: 100%;
+        min-height: 100vh;
+        min-height: -webkit-fill-available;
+        display: flex;
+        flex-direction: column;
+        margin: 0;
+        padding: 0;
+      }
+
+      html {
+        height: -webkit-fill-available;
+      }
+      piano-component {
+        flex: 1;
+      }
+    </style>
+  </head>
+  <body>
+    <piano-component> </piano-component>
+  </body>
+</html>

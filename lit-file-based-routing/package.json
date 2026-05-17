@@ -1,0 +1,22 @@
+{
+  "name": "lit-file-based-router",
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "serve": "vite serve",
+    "start": "npm run dev",
+    "prebuild": "tsc && npm run generate",
+    "generate": "node lit-file-router --dynamic-imports=true --cache-all --show-loading=true"
+  },
+  "dependencies": {
+    "lit": "^2.0.2",
+    "lit-file-router": "file:lit-file-router"
+  },
+  "devDependencies": {
+    "@types/node": "^17.0.8",
+    "typescript": "^4.4.4",
+    "vite": "^2.7.2"
+  }
+}

@@ -1,0 +1,19 @@
+{
+	"private": true,
+	"scripts": {
+		"start": "wmr",
+		"build": "wmr build --prerender",
+		"serve": "wmr serve"
+	},
+	"eslintConfig": {
+		"extends": "preact"
+	},
+	"dependencies": {
+		"lit": "^2.0.2",
+		"preact": "^10.6.4",
+		"preact-iso": "^2.3.0"
+	},
+	"devDependencies": {
+		"wmr": "^3.7.2"
+	}
+}

@@ -1,0 +1,8 @@
+node_modules
+.DS_Store
+dist
+build
+types
+*.local
+android/.idea
+android/.gradle

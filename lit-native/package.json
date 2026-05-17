@@ -1,0 +1,28 @@
+{
+  "name": "my-app",
+  "version": "0.0.0",
+  "main": "dist/my-element.es.js",
+  "exports": {
+    ".": "./dist/my-element.es.js"
+  },
+  "types": "types/my-element.d.ts",
+  "files": [
+    "dist",
+    "types"
+  ],
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "deploy": "gh-pages -d build"
+  },
+  "dependencies": {
+    "lit": "*",
+    "vite-plugin-pwa": "^0.8.1"
+  },
+  "devDependencies": {
+    "@types/node": "^15.12.2",
+    "gh-pages": "^3.2.3",
+    "typescript": "^4.3.2",
+    "vite": "^2.3.7"
+  }
+}

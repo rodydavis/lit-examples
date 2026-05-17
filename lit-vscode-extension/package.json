@@ -1,0 +1,54 @@
+{
+  "name": "lit-vscode-extension",
+  "description": "Lit VSCode Extension Example",
+  "version": "0.0.1",
+  "publisher": "rodydavis",
+  "private": true,
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rodydavis/lit-vscode-extension"
+  },
+  "engines": {
+    "vscode": "^1.47.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onCommand:lit.start",
+    "onCommand:lit.reset",
+    "onWebviewPanel:lit"
+  ],
+  "main": "./build/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "lit.start",
+        "title": "Open Plugin",
+        "category": "lit"
+      },
+      {
+        "command": "lit.reset",
+        "title": "Reset",
+        "category": "lit"
+      }
+    ]
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "ext": "tsc src/extension.ts --outdir build --skipLibCheck --module commonjs",
+    "compile": "npm run build && npm run ext",
+    "serve": "vite preview"
+  },
+  "dependencies": {
+    "lit": "*"
+  },
+  "devDependencies": {
+    "@types/node": "^15.12.4",
+    "@types/vscode": "^1.57.0",
+    "typescript": "^4.2.3",
+    "vite": "^2.3.5"
+  }
+}
