@@ -1,7 +1,5 @@
-import "./styles.css";
-
 import { html, css, LitElement } from "lit";
-import { customElement } from "lit/decorators.js";
+import { customElement, query } from "lit/decorators.js";
 
 import { CanvasNode, Canvas } from "./canvas";
 import { BaseTreeNode, styles as treeStyles, template as treeTemplate } from "./ui/tree-view";
@@ -17,27 +15,47 @@ export class NodeEditor extends LitElement {
     },
   });
 
+  @query("#output")
+  outputContainer!: HTMLDivElement;
+
+  private _resizeObserver = new ResizeObserver((entries) => {
+    for (const entry of entries) {
+      const { width, height } = entry.contentRect;
+      this.editor.resize({ width, height });
+    }
+  });
+
   static styles = [
     treeStyles,
     css`
+      :host {
+        display: block;
+        width: 100%;
+        height: 100%;
+      }
       main {
-        height: 100vh;
+        height: 100%;
         width: 100%;
         display: flex;
         flex-direction: row;
       }
       #output {
         flex: 1;
+        overflow: hidden;
       }
       .sidebar {
         width: ${PROPERTY_WIDTH}px;
+        overflow-y: auto;
+        background-color: #f5f5f5;
+        border-right: 1px solid #ddd;
       }
       #properties {
         width: ${PROPERTY_WIDTH}px;
         display: flex;
         flex-direction: column;
-        overflow-y: scroll;
+        overflow-y: auto;
         background-color: #eee;
+        border-left: 1px solid #ddd;
       }
       .property {
         display: flex;
@@ -271,6 +289,8 @@ export class NodeEditor extends LitElement {
   }
 
   firstUpdated() {
+    this._resizeObserver.observe(this.outputContainer);
+
     const amount = 10;
     // Create random canvas nodes
     for (let i = 0; i < amount; i++) {
@@ -283,13 +303,11 @@ export class NodeEditor extends LitElement {
       const target: CanvasNode = this.editor.store.nodes[i + amount / 2];
       this.editor.store.linkNodes(source, target, "simple");
     }
+  }
 
-    window.addEventListener("resize", () => {
-      this.editor.resize({
-        width: window.innerWidth - PROPERTY_WIDTH,
-        height: window.innerHeight,
-      });
-    });
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    this._resizeObserver.disconnect();
   }
 
   addRandomNode(i: number = this.editor.store.nodes.length) {

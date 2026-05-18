@@ -50,9 +50,15 @@ export class Canvas implements ReactiveController {
   context: MatrixContext = defaultMatrix;
   ctx: CanvasRenderingContext2D;
 
+  private _keydownListener = (e: KeyboardEvent) => this.onKeyDown(e);
+  private _preventDefault = (e: Event) => e.preventDefault();
+
   hostConnected() {}
 
-  hostDisconnected() {}
+  hostDisconnected() {
+    window.removeEventListener("keydown", this._keydownListener);
+    window.removeEventListener("DOMMouseScroll", this._preventDefault);
+  }
 
   nodeTree(): Tree {
     return {
@@ -139,15 +145,10 @@ export class Canvas implements ReactiveController {
     );
 
     // Keyboard Events
-    window.addEventListener("keydown", (e) => this.onKeyDown(e));
-    // window.addEventListener("mousewheel", (e) => {
-    //   e.preventDefault();
-    // });
-    window.addEventListener("DOMMouseScroll", (e) => {
-      e.preventDefault();
+    window.addEventListener("keydown", this._keydownListener);
+    window.addEventListener("DOMMouseScroll", this._preventDefault, {
+      passive: false,
     });
-
-    // TODO: https://github.com/shuding/apple-pencil-safari-api-test
 
     this.render();
     this.host.requestUpdate();
@@ -440,8 +441,8 @@ export class Canvas implements ReactiveController {
   resize(size?: Size) {
     const width = size?.width ?? window.innerWidth;
     const height = size?.height ?? window.innerHeight;
-    this.canvas.setAttribute("width", `${width}px`);
-    this.canvas.setAttribute("height", `${height}px`);
+    this.canvas.setAttribute("width", `${width}`);
+    this.canvas.setAttribute("height", `${height}`);
     this.canvas.width = width;
     this.canvas.height = height;
   }
