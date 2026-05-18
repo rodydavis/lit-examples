@@ -43,7 +43,7 @@ jobs:
         run: bazel build //...
 
       - name: Build Site
-        run: pnpm run build --base=/lit-examples/
+        run: pnpm run build --base=/rodydavis/lit-examples/
 
       - name: Deploy Docs
         uses: peaceiris/actions-gh-pages@v4
