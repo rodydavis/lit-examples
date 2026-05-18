@@ -3,7 +3,7 @@
 A comprehensive collection of modular [Lit](https://lit.dev/) web components, prototypes, and full-stack integration examples.
 
 ## ⚡ Lit Showcase
-Explore all components natively in the interactive **[Lit Showcase Hub](./lit-showcase/index.html)**.
+Explore all components natively in the interactive **[Lit Showcase Hub](./lit-showcase/index.html)** or view the **[Live Demo](https://demos.rodydavis.dev/rodydavis/lit-examples)**.
 
 ## 📦 Project Structure
 
