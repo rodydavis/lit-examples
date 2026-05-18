@@ -42,7 +42,8 @@ function getHtmlEntries() {
 }
 
 // Vite plugin to rewrite HTML absolute assets to be subfolder-scoped
-const mpaHtmlPlugin = (base = '/') => {
+// Vite plugin to rewrite HTML absolute assets to be subfolder-scoped
+const mpaHtmlPlugin = () => {
   return {
     name: 'mpa-html-plugin',
     transformIndexHtml: {
@@ -53,7 +54,7 @@ const mpaHtmlPlugin = (base = '/') => {
           const subfolder = parts[0];
           
           let transformed = html
-            // Rewrite absolute src/href paths like "/src/main.ts" to "/base/subfolder/src/main.ts"
+            // Rewrite absolute src/href paths like "/src/main.ts" to "/subfolder/src/main.ts"
             .replace(/(src|href)="\/([^"]+)"/g, (match, attr, path) => {
               if (path.startsWith('http://') || path.startsWith('https://')) {
                 return match;
@@ -61,8 +62,7 @@ const mpaHtmlPlugin = (base = '/') => {
               if (path.startsWith(subfolder)) {
                 return match;
               }
-              const prefix = base === '/' ? '' : base.replace(/\/$/, '');
-              return `${attr}="${prefix}/${subfolder}/${path}"`;
+              return `${attr}="/${subfolder}/${path}"`;
             });
             
           // Clean up platform-specific non-module scripts like capacitor.js which fail Vite build
@@ -158,7 +158,7 @@ const externalizeMissingPlugin = () => {
 
 export default defineConfig({
   base: '/lit-examples/',
-  plugins: [mpaHtmlPlugin('/lit-examples/'), tsResolvePlugin(), externalizeMissingPlugin()],
+  plugins: [mpaHtmlPlugin(), tsResolvePlugin(), externalizeMissingPlugin()],
   resolve: {
     alias: {
       'lit/decorators': 'lit/decorators.js',
