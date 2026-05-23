@@ -26,7 +26,7 @@
     "@material/mwc-icon-button": "^0.21.0",
     "@material/mwc-list": "^0.21.0",
     "@material/mwc-textfield": "^0.21.0",
-    "@material/mwc-top-app-bar-fixed": "^0.21.0",
+    "@material/mwc-top-app-bar-fixed": "^0.27.0",
     "3d-force-graph": "^1.70.9",
     "3d-force-graph-ar": "^1.7.5",
     "3d-force-graph-vr": "^2.0.12",

@@ -66,8 +66,8 @@ importers:
         specifier: ^0.21.0
         version: 0.21.0
       '@material/mwc-top-app-bar-fixed':
-        specifier: ^0.21.0
-        version: 0.21.0
+        specifier: ^0.27.0
+        version: 0.27.0
       aframe:
         specifier: ^1.3.0
         version: 1.7.1
@@ -155,13 +155,13 @@ importers:
         version: 5.9.3
       vite:
         specifier: ^5.2.11
-        version: 5.4.21(@types/node@20.19.41)(terser@5.47.1)
+        version: 5.4.21(@types/node@20.19.41)(terser@5.48.0)
       vite-plugin-pwa:
         specifier: ^0.19.0
-        version: 0.19.8(vite@5.4.21(@types/node@20.19.41)(terser@5.47.1))(workbox-build@7.4.1)(workbox-window@7.4.1)
+        version: 0.19.8(vite@5.4.21(@types/node@20.19.41)(terser@5.48.0))(workbox-build@7.4.1)(workbox-window@7.4.1)
       vitest:
         specifier: ^1.5.0
-        version: 1.6.1(@types/node@20.19.41)(@vitest/ui@1.6.1)(happy-dom@14.12.3)(terser@5.47.1)
+        version: 1.6.1(@types/node@20.19.41)(@vitest/ui@1.6.1)(happy-dom@14.12.3)(terser@5.48.0)
 
 packages:
 
@@ -984,11 +984,17 @@ packages:
   '@material/animation@14.0.0-canary.261f2db59.0':
     resolution: {integrity: sha512-OjxWJYSRNs4vnPe8NclaNn+TsNc8TR/wHusGtezF5F+wl+5mh+K69BMXAmURtq3idoRg4XaOSC/Ohk1ovD1fMQ==}
 
+  '@material/animation@14.0.0-canary.53b3cad2f.0':
+    resolution: {integrity: sha512-GBuR4VmcTQW1D0lPXEosf5Giho72LLbyGIydWGtaEUtLJoive/D9kFkwTN4Fsyt9Kkl7hbhs35vrNe6QkAH4/Q==}
+
   '@material/base@12.0.0-canary.197f64fa2.0':
     resolution: {integrity: sha512-aMPQ4eM95ZQDY53WzcSEbNhZAqRmYzgumpYEdz5PjOKO66lHparMUXlbQ2LqKhMrKuNg/LWY3Ncl8nL0h0LWfA==}
 
   '@material/base@14.0.0-canary.261f2db59.0':
     resolution: {integrity: sha512-vy5SQt+jcwwdRFfBvtpVdpULUBujecVUKOXcopaQoi2XIzI5EBHuR4gPN0cd1yfmVEucD6p2fvVv2FJ3Ngr61w==}
+
+  '@material/base@14.0.0-canary.53b3cad2f.0':
+    resolution: {integrity: sha512-UJKbXwZtkrA3sfQDmj8Zbw1Q3Tqtl6KdfVFws95Yf7TCUgTFzbZI/FSx1w7dVugQPOEnIBuZnzqZam/MtHkx4w==}
 
   '@material/button@12.0.0-canary.197f64fa2.0':
     resolution: {integrity: sha512-prpJxqw1Xf7QmK8PSqvlysxMc7DLKZaUGF1ESs5KqTIojR2TPAH78nNyXBQnK4BX/Ok3RoomdGHY7vg1GXIjOw==}
@@ -1005,17 +1011,26 @@ packages:
   '@material/dom@14.0.0-canary.261f2db59.0':
     resolution: {integrity: sha512-iUpZG6Bb2l/PfNV2Fb/pXfG1p4Bz4PC9A7ATPlKfcU5HioObcnYVc/+Hrtaw8eu28BNIc+VVROtbfpqG/YgKSQ==}
 
+  '@material/dom@14.0.0-canary.53b3cad2f.0':
+    resolution: {integrity: sha512-aR+rfncF6oi2ivdOlKSJI4UXwNzWV5rXM88MLDoSJF1D7lXxhAKhge+tMUBodWGV/q0+FnXLuVAa0WYTrKjo+A==}
+
   '@material/drawer@12.0.0-canary.197f64fa2.0':
     resolution: {integrity: sha512-a9aIgMc96HIUX4LU4qYILVzP3ixHM1/1XMMgrk+7yr4dnhxigDIpvsRPt09LlOUumVPwr88ifiYY2772olYuZg==}
 
   '@material/elevation@12.0.0-canary.197f64fa2.0':
     resolution: {integrity: sha512-Ijv5IqfBFT5SrvAdJ+Hkh9IBKM8qN1oND6cIK1bhVyV8WP8OLzeAo2Z1gKIvd3CyP0LqXalPUtjSbugTt3DYug==}
 
+  '@material/elevation@14.0.0-canary.53b3cad2f.0':
+    resolution: {integrity: sha512-3h+EkR588RMZ5TSNQ4UeXD1FOBnL3ABQix0DQIGwtNJCqSMoPndT/oJEFvwQbTkZNDbFIKN9p1Q7/KuFPVY8Pw==}
+
   '@material/feature-targeting@12.0.0-canary.197f64fa2.0':
     resolution: {integrity: sha512-KZoxPbl0iCsESx11bAZ0qeAQJ7eqI6+nBX0T9AaJ5GFELP168uhkINDJX0TvQf5fgTNkEpeQrncJRaFuqHQTMg==}
 
   '@material/feature-targeting@14.0.0-canary.261f2db59.0':
     resolution: {integrity: sha512-CrVoGNu0ym52OPEKy3kgeNL2oSWOCBYbYxSH3GhERxCq5FwGBN+XmK/ZDLFVQlHYy3v8x4TqVEwXviCeumNTxQ==}
+
+  '@material/feature-targeting@14.0.0-canary.53b3cad2f.0':
+    resolution: {integrity: sha512-fn7Af3PRyARtNeYqtjxXmE3Y/dCpnpQVWWys57MqiGR/nvc6qpgOfJ6rOdcu/MrOysOE/oebTUDmDnTmwpe9Hw==}
 
   '@material/floating-label@12.0.0-canary.197f64fa2.0':
     resolution: {integrity: sha512-ojl6nkjsQSZ4js1bKfvEr1SxdfhiQ2ux3F0ZOMb7oY1KPxAaYs5l7PoNfos8uQJWv0BFE4aoQfLu88/9DMN+ZQ==}
@@ -1035,6 +1050,10 @@ packages:
 
   '@material/mwc-base@0.25.3':
     resolution: {integrity: sha512-4wvxZ9dhPr0O4jjOHPmFyn77pafe+h1gHPlT9sbQ+ly8NY/fSn/TXn7/PbxgL8g4ZHxMvD3o7PJopg+6cbHp8Q==}
+    deprecated: MWC beta is longer supported. Please upgrade to @material/web
+
+  '@material/mwc-base@0.27.0':
+    resolution: {integrity: sha512-oCWWtjbyQ52AaUbzINLGBKScIPyqhps2Y7c8t6Gu6fcFeDxhKXMV1Cqvtj/OMhtAt53XjHfD2XruWwYv3cYYUA==}
     deprecated: MWC beta is longer supported. Please upgrade to @material/web
 
   '@material/mwc-button@0.21.0':
@@ -1101,12 +1120,12 @@ packages:
     resolution: {integrity: sha512-Ft8GHuHkES6EGNnOV/tYDiSKdaLn5FP0BkcQcNebfmmXG2v35nbx3AmSuQhI6IGk7O+wulYTVubNfp+OkKro7w==}
     deprecated: MWC beta is longer supported. Please upgrade to @material/web
 
-  '@material/mwc-top-app-bar-fixed@0.21.0':
-    resolution: {integrity: sha512-Xd9lEGWahV/h0U3+RXkTmS37EwLY0/ey9LI0qOGMD+AsfsIc+21Mjo7DxOIAj3gJc1b5k0W+HiXct36rhaDXVg==}
+  '@material/mwc-top-app-bar-fixed@0.27.0':
+    resolution: {integrity: sha512-kU1RKmx8U7YCbsBuAXfNLtu+V/Jwos+o2mSY94tZpv36dIsvcsGQ4pB2zW0EaU8g9bQVdwLMVxj4oooxSmbZXw==}
     deprecated: MWC beta is longer supported. Please upgrade to @material/web
 
-  '@material/mwc-top-app-bar@0.21.0':
-    resolution: {integrity: sha512-EM4C+iDWnHEjvA1cgFWukZ6xZwxIVEYjTQ/zs0DE8/cHmPxu1xQOXJdAZbGAnh0acSiUY3tcYrxsc+izL58BOQ==}
+  '@material/mwc-top-app-bar@0.27.0':
+    resolution: {integrity: sha512-vHn10exeDhUVFpo4TgBsS8pta4AxZtjuuxrYFHMYxceGifEATvGbYoPyw1x7cCMcXMMIITElgfCURAbCmn3BgA==}
     deprecated: MWC beta is longer supported. Please upgrade to @material/web
 
   '@material/notched-outline@12.0.0-canary.197f64fa2.0':
@@ -1121,14 +1140,23 @@ packages:
   '@material/ripple@14.0.0-canary.261f2db59.0':
     resolution: {integrity: sha512-3FLCLj8X7KrFfuYBHJg1b7Odb3V/AW7fxk3m1i1zhDnygKmlQ/abVucH1s2qbX3Y+JIiq+5/C5407h9BFtOf+A==}
 
+  '@material/ripple@14.0.0-canary.53b3cad2f.0':
+    resolution: {integrity: sha512-6g2G62vd8DsMuIUSXlRrzb98qkZ4o8ZREknNwNP2zaLQEOkJ//4j9HaqDt98/3LIjUTY9UIVFTQENiMmlwKHYQ==}
+
   '@material/rtl@12.0.0-canary.197f64fa2.0':
     resolution: {integrity: sha512-pW9qIPdUhNWKQPjXU2P97BfHiKH9nR3bCGmr1LYj1f7vEZL2zsnNPvsOh3I+BJgtxXLp6eqshv/daGF5Juufsg==}
 
   '@material/rtl@14.0.0-canary.261f2db59.0':
     resolution: {integrity: sha512-bVnXBbUsHs57+EXdeFbcwaKy3lT/itI/qTLmJ88ar0qaGEujO1GmESHm3ioqkeo4kQpTfDhBwQGeEi1aDaTdFg==}
 
+  '@material/rtl@14.0.0-canary.53b3cad2f.0':
+    resolution: {integrity: sha512-f08LT0HSa0WYU+4Jz/tbm1TQ9Fcf2k+H6dPPYv0J1sZmX6hMgCEmNiUdUFLQFvszoXx2XrRi1/hIFjbz2e69Yg==}
+
   '@material/shape@12.0.0-canary.197f64fa2.0':
     resolution: {integrity: sha512-oeA8A1EhSf6XjSidDpd05wvCO16LpL1nl7Ba00OnSR4tgRza/bNMQ5snOCDOHbOlGKojXI78KqUKX5hTjojnQA==}
+
+  '@material/shape@14.0.0-canary.53b3cad2f.0':
+    resolution: {integrity: sha512-RyjInLCNe+nI/ulKea0ZLHphXQDiDqYazS25SRn18g8Hoa5qGNaY5oOBncDXUYn3jm5oI5kFc9oif//kulkbjg==}
 
   '@material/textfield@12.0.0-canary.197f64fa2.0':
     resolution: {integrity: sha512-jIp5r4fOLoNRUSVj5DyEJIH6wm4KP1mJb+V1GuxCxLZVqL+2zAFzYWtezRtycDZ703vRBmoj8mo9a9JhuuQ7BQ==}
@@ -1139,14 +1167,20 @@ packages:
   '@material/theme@14.0.0-canary.261f2db59.0':
     resolution: {integrity: sha512-bUqyFT0QF8Nxx02fekt3CXIfC9DEPOPdo2hjgdtvhrNP+vftbkI2tKZ5/uRUnVA+zqQAOyIl5z6FOMg4fyemCA==}
 
-  '@material/top-app-bar@12.0.0-canary.197f64fa2.0':
-    resolution: {integrity: sha512-g27K1BFloCYyLrgnBkfzjIZayeUxGiu5KqgZ03f7swE1s/2isk2FDZdx15boixS/4NpaT8RiC9aZqki/j98F6g==}
+  '@material/theme@14.0.0-canary.53b3cad2f.0':
+    resolution: {integrity: sha512-S06XAevDCDWMe+GgsEpITMS07imUidzadNaTbJsqssFajBLr53QWVZsG84BpjXKXoYvyEJvb0hX5U0lq6ip9UQ==}
+
+  '@material/top-app-bar@14.0.0-canary.53b3cad2f.0':
+    resolution: {integrity: sha512-9vPLLxUbNrWNCPGHoIeIUtyXWQUNh+yQwnkTYVkVAVEb1CsWb2D+/NefytfvyFtXWBFQLybAeG5RH0ZqdcgQBQ==}
 
   '@material/touch-target@12.0.0-canary.197f64fa2.0':
     resolution: {integrity: sha512-39N1C7jKQwmb2pZyjyJtZDh/uDrZskGqiVi5V5MdBaYLO3V+juWOB+1NdTqEMeCZNz1er210Uf3bFo42dF4BuA==}
 
   '@material/typography@12.0.0-canary.197f64fa2.0':
     resolution: {integrity: sha512-Yj9FH5UwXzJxci7a0zpToVnlqZBn11+Pi27YkmzqviAPHB6bsVg1UOQF9xMjZ7rNsjvK0SLtfeBIJ7rEsIxVjg==}
+
+  '@material/typography@14.0.0-canary.53b3cad2f.0':
+    resolution: {integrity: sha512-9J0k2fq7uyHsRzRqJDJLGmg3YzRpfRPtFDVeUH/xBcYoqpZE7wYw5Mb7s/l8eP626EtR7HhXhSPjvRTLA6NIJg==}
 
   '@nodelib/fs.scandir@2.1.5':
     resolution: {integrity: sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g==}
@@ -1643,8 +1677,8 @@ packages:
   base64-js@1.5.1:
     resolution: {integrity: sha512-AKpaYlHn8t4SVbOHCy+b5+KKgvR4vrsD8vbvrbiQJps7fKDTkjkDry6ji0rUJjC0kzbNePLwzxq8iypo41qeWA==}
 
-  baseline-browser-mapping@2.10.30:
-    resolution: {integrity: sha512-xjOFN16Ha1+Rz4nFYKqHU/LSB+gx/Vi3yQLX7r7sAW+Wa+8hhF2h4pvqTrTMc8+WcDBEunnUurr46Jvv0jk3Vg==}
+  baseline-browser-mapping@2.10.32:
+    resolution: {integrity: sha512-wbPvpyjJPC0zdfdKXxqEL3Ea+bOMD/87X4lftiJkkaBiuG6ALQy1SLmEd7BSmVCuwCQsBrCamgBoLyfFDD1EPg==}
     engines: {node: '>=6.0.0'}
     hasBin: true
 
@@ -1743,8 +1777,8 @@ packages:
     resolution: {integrity: sha512-+ys997U96po4Kx/ABpBCqhA9EuxJaQWDQg7295H4hBphv3IZg0boBKuwYpt4YXp6MZ5AmZQnU/tyMTlRpaSejg==}
     engines: {node: '>= 0.4'}
 
-  caniuse-lite@1.0.30001792:
-    resolution: {integrity: sha512-hVLMUZFgR4JJ6ACt1uEESvQN1/dBVqPAKY0hgrV70eN3391K6juAfTjKZLKvOMsx8PxA7gsY1/tLMMTcfFLLpw==}
+  caniuse-lite@1.0.30001793:
+    resolution: {integrity: sha512-iwSsYWaCOoh26cV8NwNRViHlrfUvYsHDfRVcbtmw0Kg6PJIZZXwMkj1442FYLBGkeUf1juAsU3DTfxW579mrPA==}
 
   canvas-color-tracker@1.3.2:
     resolution: {integrity: sha512-ryQkDX26yJ3CXzb3hxUVNlg1NKE4REc5crLBq661Nxzr8TNd236SaEf2ffYLXyI5tSABSeguHLqcVq4vf9L3Zg==}
@@ -2101,8 +2135,8 @@ packages:
   electron-is-dev@2.0.0:
     resolution: {integrity: sha512-3X99K852Yoqu9AcW50qz3ibYBWY79/pBhlMCab8ToEWS48R0T9tyxRiQhwylE7zQdXrMnx2JKqUJyMPmt5FBqA==}
 
-  electron-to-chromium@1.5.357:
-    resolution: {integrity: sha512-NHlTIQDK8fmVwHwuIzmXYEJ1Ewq3D9wDNc0cWXxDGysP6Pb21giwGNkxiTifyKy/4SoPuN5l6GLP1W9Sv7zB2g==}
+  electron-to-chromium@1.5.361:
+    resolution: {integrity: sha512-Q6Hts7N9FnJc5LeGRINFvLhCI9xZmNtTDe5ZbcVezQz7cU4a8Aua3GH1b8J2XY8Al9PF+OCwYqhgsOOheMdvkA==}
 
   elementtree@0.1.7:
     resolution: {integrity: sha512-wkgGT6kugeQk/P6VZ/f4T+4HB41BVgNBq5CDIZVbQ02nvTVqAiVTbskxxu3eA/X96lMlfYOwnLQpN2v5E1zDEg==}
@@ -2146,6 +2180,10 @@ packages:
 
   es-object-atoms@1.1.1:
     resolution: {integrity: sha512-FGgH2h8zKNim9ljj7dankFPcICIK9Cp5bm+c2gQSYePhpaG5+esrLODihIorn+Pe6FGJzWhXQotPv73jTaldXA==}
+    engines: {node: '>= 0.4'}
+
+  es-object-atoms@1.1.2:
+    resolution: {integrity: sha512-HWcBoN6NileqtSydK2FqHbS/LoDd2pqrnQHLyJzBj4kOp/ky2MWMN694xOfkK8/SnUsW2DH7EfyVlydKCsm1Zw==}
     engines: {node: '>= 0.4'}
 
   es-set-tostringtag@2.1.0:
@@ -3112,8 +3150,9 @@ packages:
     engines: {node: ^20.17.0 || >=22.9.0}
     hasBin: true
 
-  node-releases@2.0.44:
-    resolution: {integrity: sha512-5WUyunoPMsvvEhS8AxHtRzP+oA8UCkJ7YRxatWKjngndhDGLiqEVAQKWjFAiAiuL8zMRGzGSJxFnLetoa43qGQ==}
+  node-releases@2.0.46:
+    resolution: {integrity: sha512-GYVXHE2KnrzAfsAjl4uP++evGFCrAU1jta4ubEjIG7YWt/64Gqv66a30yKwWczVjA6j3bM4nBwH7Pk1JmDHaxQ==}
+    engines: {node: '>=18'}
 
   nopt@9.0.0:
     resolution: {integrity: sha512-Zhq3a+yFKrYwSBluL4H9XP3m3y5uvQkB/09CwDruCiRmR/UJYnn9W4R48ry0uGC70aeTPKLynBtscP9efFFcPw==}
@@ -3872,8 +3911,8 @@ packages:
     resolution: {integrity: sha512-G13vtMYPT/J8A4X2SjdtBTphZlrp1gKv6hZiOjw14RCWg6GbHuQBGtjlx75xLbYV/wEc0D7G5K4rxKP/cXk8Bw==}
     engines: {node: '>=10'}
 
-  terser@5.47.1:
-    resolution: {integrity: sha512-tPbLXTI6ohPASb/1YViL428oEHu6/qv1OxqYnfaonVCFHqx4+wCd95pHrQWsL5X4pl90CTyW9piSAsS2L0VoMw==}
+  terser@5.48.0:
+    resolution: {integrity: sha512-J/9An6vs9Us6wKRriSFXBWdRZapREHqFzdNUKk0pmu804EMR6dr6winwo7e5JDxN4xahxQsuysyYFwlwj4XN/Q==}
     engines: {node: '>=10'}
     hasBin: true
 
@@ -5420,11 +5459,19 @@ snapshots:
     dependencies:
       tslib: 2.8.1
 
+  '@material/animation@14.0.0-canary.53b3cad2f.0':
+    dependencies:
+      tslib: 2.8.1
+
   '@material/base@12.0.0-canary.197f64fa2.0':
     dependencies:
       tslib: 2.8.1
 
   '@material/base@14.0.0-canary.261f2db59.0':
+    dependencies:
+      tslib: 2.8.1
+
+  '@material/base@14.0.0-canary.53b3cad2f.0':
     dependencies:
       tslib: 2.8.1
 
@@ -5473,6 +5520,11 @@ snapshots:
       '@material/feature-targeting': 14.0.0-canary.261f2db59.0
       tslib: 2.8.1
 
+  '@material/dom@14.0.0-canary.53b3cad2f.0':
+    dependencies:
+      '@material/feature-targeting': 14.0.0-canary.53b3cad2f.0
+      tslib: 2.8.1
+
   '@material/drawer@12.0.0-canary.197f64fa2.0':
     dependencies:
       '@material/animation': 12.0.0-canary.197f64fa2.0
@@ -5496,11 +5548,24 @@ snapshots:
       '@material/theme': 12.0.0-canary.197f64fa2.0
       tslib: 2.8.1
 
+  '@material/elevation@14.0.0-canary.53b3cad2f.0':
+    dependencies:
+      '@material/animation': 14.0.0-canary.53b3cad2f.0
+      '@material/base': 14.0.0-canary.53b3cad2f.0
+      '@material/feature-targeting': 14.0.0-canary.53b3cad2f.0
+      '@material/rtl': 14.0.0-canary.53b3cad2f.0
+      '@material/theme': 14.0.0-canary.53b3cad2f.0
+      tslib: 2.8.1
+
   '@material/feature-targeting@12.0.0-canary.197f64fa2.0':
     dependencies:
       tslib: 2.8.1
 
   '@material/feature-targeting@14.0.0-canary.261f2db59.0':
+    dependencies:
+      tslib: 2.8.1
+
+  '@material/feature-targeting@14.0.0-canary.53b3cad2f.0':
     dependencies:
       tslib: 2.8.1
 
@@ -5558,6 +5623,13 @@ snapshots:
       '@lit/reactive-element': 1.0.0-rc.4
       '@material/base': 14.0.0-canary.261f2db59.0
       '@material/dom': 14.0.0-canary.261f2db59.0
+      lit: 2.8.0
+      tslib: 2.8.1
+
+  '@material/mwc-base@0.27.0':
+    dependencies:
+      '@material/base': 14.0.0-canary.53b3cad2f.0
+      '@material/dom': 14.0.0-canary.53b3cad2f.0
       lit: 2.8.0
       tslib: 2.8.1
 
@@ -5695,19 +5767,18 @@ snapshots:
       lit-html: 1.4.1
       tslib: 2.8.1
 
-  '@material/mwc-top-app-bar-fixed@0.21.0':
+  '@material/mwc-top-app-bar-fixed@0.27.0':
     dependencies:
-      '@material/mwc-top-app-bar': 0.21.0
-      '@material/top-app-bar': 12.0.0-canary.197f64fa2.0
-      lit-element: 2.4.0
+      '@material/mwc-top-app-bar': 0.27.0
+      '@material/top-app-bar': 14.0.0-canary.53b3cad2f.0
+      lit: 2.8.0
       tslib: 2.8.1
 
-  '@material/mwc-top-app-bar@0.21.0':
+  '@material/mwc-top-app-bar@0.27.0':
     dependencies:
-      '@material/mwc-base': 0.21.0
-      '@material/top-app-bar': 12.0.0-canary.197f64fa2.0
-      lit-element: 2.4.0
-      lit-html: 1.4.1
+      '@material/mwc-base': 0.27.0
+      '@material/top-app-bar': 14.0.0-canary.53b3cad2f.0
+      lit: 2.8.0
       tslib: 2.8.1
 
   '@material/notched-outline@12.0.0-canary.197f64fa2.0':
@@ -5751,6 +5822,16 @@ snapshots:
       '@material/theme': 14.0.0-canary.261f2db59.0
       tslib: 2.8.1
 
+  '@material/ripple@14.0.0-canary.53b3cad2f.0':
+    dependencies:
+      '@material/animation': 14.0.0-canary.53b3cad2f.0
+      '@material/base': 14.0.0-canary.53b3cad2f.0
+      '@material/dom': 14.0.0-canary.53b3cad2f.0
+      '@material/feature-targeting': 14.0.0-canary.53b3cad2f.0
+      '@material/rtl': 14.0.0-canary.53b3cad2f.0
+      '@material/theme': 14.0.0-canary.53b3cad2f.0
+      tslib: 2.8.1
+
   '@material/rtl@12.0.0-canary.197f64fa2.0':
     dependencies:
       '@material/theme': 12.0.0-canary.197f64fa2.0
@@ -5761,11 +5842,23 @@ snapshots:
       '@material/theme': 14.0.0-canary.261f2db59.0
       tslib: 2.8.1
 
+  '@material/rtl@14.0.0-canary.53b3cad2f.0':
+    dependencies:
+      '@material/theme': 14.0.0-canary.53b3cad2f.0
+      tslib: 2.8.1
+
   '@material/shape@12.0.0-canary.197f64fa2.0':
     dependencies:
       '@material/feature-targeting': 12.0.0-canary.197f64fa2.0
       '@material/rtl': 12.0.0-canary.197f64fa2.0
       '@material/theme': 12.0.0-canary.197f64fa2.0
+      tslib: 2.8.1
+
+  '@material/shape@14.0.0-canary.53b3cad2f.0':
+    dependencies:
+      '@material/feature-targeting': 14.0.0-canary.53b3cad2f.0
+      '@material/rtl': 14.0.0-canary.53b3cad2f.0
+      '@material/theme': 14.0.0-canary.53b3cad2f.0
       tslib: 2.8.1
 
   '@material/textfield@12.0.0-canary.197f64fa2.0':
@@ -5795,16 +5888,21 @@ snapshots:
       '@material/feature-targeting': 14.0.0-canary.261f2db59.0
       tslib: 2.8.1
 
-  '@material/top-app-bar@12.0.0-canary.197f64fa2.0':
+  '@material/theme@14.0.0-canary.53b3cad2f.0':
     dependencies:
-      '@material/animation': 12.0.0-canary.197f64fa2.0
-      '@material/base': 12.0.0-canary.197f64fa2.0
-      '@material/elevation': 12.0.0-canary.197f64fa2.0
-      '@material/ripple': 12.0.0-canary.197f64fa2.0
-      '@material/rtl': 12.0.0-canary.197f64fa2.0
-      '@material/shape': 12.0.0-canary.197f64fa2.0
-      '@material/theme': 12.0.0-canary.197f64fa2.0
-      '@material/typography': 12.0.0-canary.197f64fa2.0
+      '@material/feature-targeting': 14.0.0-canary.53b3cad2f.0
+      tslib: 2.8.1
+
+  '@material/top-app-bar@14.0.0-canary.53b3cad2f.0':
+    dependencies:
+      '@material/animation': 14.0.0-canary.53b3cad2f.0
+      '@material/base': 14.0.0-canary.53b3cad2f.0
+      '@material/elevation': 14.0.0-canary.53b3cad2f.0
+      '@material/ripple': 14.0.0-canary.53b3cad2f.0
+      '@material/rtl': 14.0.0-canary.53b3cad2f.0
+      '@material/shape': 14.0.0-canary.53b3cad2f.0
+      '@material/theme': 14.0.0-canary.53b3cad2f.0
+      '@material/typography': 14.0.0-canary.53b3cad2f.0
       tslib: 2.8.1
 
   '@material/touch-target@12.0.0-canary.197f64fa2.0':
@@ -5817,6 +5915,12 @@ snapshots:
     dependencies:
       '@material/feature-targeting': 12.0.0-canary.197f64fa2.0
       '@material/theme': 12.0.0-canary.197f64fa2.0
+      tslib: 2.8.1
+
+  '@material/typography@14.0.0-canary.53b3cad2f.0':
+    dependencies:
+      '@material/feature-targeting': 14.0.0-canary.53b3cad2f.0
+      '@material/theme': 14.0.0-canary.53b3cad2f.0
       tslib: 2.8.1
 
   '@nodelib/fs.scandir@2.1.5':
@@ -5874,7 +5978,7 @@ snapshots:
     dependencies:
       serialize-javascript: 7.0.5
       smob: 1.6.2
-      terser: 5.47.1
+      terser: 5.48.0
     optionalDependencies:
       rollup: 4.60.4
 
@@ -6121,7 +6225,7 @@ snapshots:
       pathe: 1.1.2
       picocolors: 1.1.1
       sirv: 2.0.4
-      vitest: 1.6.1(@types/node@20.19.41)(@vitest/ui@1.6.1)(happy-dom@14.12.3)(terser@5.47.1)
+      vitest: 1.6.1(@types/node@20.19.41)(@vitest/ui@1.6.1)(happy-dom@14.12.3)(terser@5.48.0)
 
   '@vitest/utils@1.6.1':
     dependencies:
@@ -6286,7 +6390,7 @@ snapshots:
 
   base64-js@1.5.1: {}
 
-  baseline-browser-mapping@2.10.30: {}
+  baseline-browser-mapping@2.10.32: {}
 
   bezier-js@6.1.4: {}
 
@@ -6359,10 +6463,10 @@ snapshots:
 
   browserslist@4.28.2:
     dependencies:
-      baseline-browser-mapping: 2.10.30
-      caniuse-lite: 1.0.30001792
-      electron-to-chromium: 1.5.357
-      node-releases: 2.0.44
+      baseline-browser-mapping: 2.10.32
+      caniuse-lite: 1.0.30001793
+      electron-to-chromium: 1.5.361
+      node-releases: 2.0.46
       update-browserslist-db: 1.2.3(browserslist@4.28.2)
 
   buffer-crc32@0.2.13: {}
@@ -6414,7 +6518,7 @@ snapshots:
       call-bind-apply-helpers: 1.0.2
       get-intrinsic: 1.3.0
 
-  caniuse-lite@1.0.30001792: {}
+  caniuse-lite@1.0.30001793: {}
 
   canvas-color-tracker@1.3.2:
     dependencies:
@@ -6764,7 +6868,7 @@ snapshots:
 
   electron-is-dev@2.0.0: {}
 
-  electron-to-chromium@1.5.357: {}
+  electron-to-chromium@1.5.361: {}
 
   elementtree@0.1.7:
     dependencies:
@@ -6798,7 +6902,7 @@ snapshots:
       data-view-byte-offset: 1.0.1
       es-define-property: 1.0.1
       es-errors: 1.3.0
-      es-object-atoms: 1.1.1
+      es-object-atoms: 1.1.2
       es-set-tostringtag: 2.1.0
       es-to-primitive: 1.3.0
       function.prototype.name: 1.1.8
@@ -6860,6 +6964,10 @@ snapshots:
       stop-iteration-iterator: 1.1.0
 
   es-object-atoms@1.1.1:
+    dependencies:
+      es-errors: 1.3.0
+
+  es-object-atoms@1.1.2:
     dependencies:
       es-errors: 1.3.0
 
@@ -7932,7 +8040,7 @@ snapshots:
       which: 6.0.1
     optional: true
 
-  node-releases@2.0.44: {}
+  node-releases@2.0.46: {}
 
   nopt@9.0.0:
     dependencies:
@@ -8445,7 +8553,7 @@ snapshots:
       define-properties: 1.2.1
       es-abstract: 1.24.2
       es-errors: 1.3.0
-      es-object-atoms: 1.1.1
+      es-object-atoms: 1.1.2
       get-intrinsic: 1.3.0
       get-proto: 1.0.1
       which-builtin-type: 1.2.1
@@ -8693,7 +8801,7 @@ snapshots:
     dependencies:
       dunder-proto: 1.0.1
       es-errors: 1.3.0
-      es-object-atoms: 1.1.1
+      es-object-atoms: 1.1.2
 
   setimmediate@1.0.5: {}
 
@@ -8822,7 +8930,7 @@ snapshots:
       define-properties: 1.2.1
       es-abstract: 1.24.2
       es-errors: 1.3.0
-      es-object-atoms: 1.1.1
+      es-object-atoms: 1.1.2
       get-intrinsic: 1.3.0
       gopd: 1.2.0
       has-symbols: 1.1.0
@@ -8838,7 +8946,7 @@ snapshots:
       define-data-property: 1.1.4
       define-properties: 1.2.1
       es-abstract: 1.24.2
-      es-object-atoms: 1.1.1
+      es-object-atoms: 1.1.2
       has-property-descriptors: 1.0.2
 
   string.prototype.trimend@1.0.9:
@@ -8846,13 +8954,13 @@ snapshots:
       call-bind: 1.0.9
       call-bound: 1.0.4
       define-properties: 1.2.1
-      es-object-atoms: 1.1.1
+      es-object-atoms: 1.1.2
 
   string.prototype.trimstart@1.0.8:
     dependencies:
       call-bind: 1.0.9
       define-properties: 1.2.1
-      es-object-atoms: 1.1.1
+      es-object-atoms: 1.1.2
 
   string_decoder@0.10.31:
     optional: true
@@ -8939,7 +9047,7 @@ snapshots:
       type-fest: 0.16.0
       unique-string: 2.0.0
 
-  terser@5.47.1:
+  terser@5.48.0:
     dependencies:
       '@jridgewell/source-map': 0.3.11
       acorn: 8.16.0
@@ -9200,13 +9308,13 @@ snapshots:
 
   vexflow@1.2.93: {}
 
-  vite-node@1.6.1(@types/node@20.19.41)(terser@5.47.1):
+  vite-node@1.6.1(@types/node@20.19.41)(terser@5.48.0):
     dependencies:
       cac: 6.7.14
       debug: 4.4.3
       pathe: 1.1.2
       picocolors: 1.1.1
-      vite: 5.4.21(@types/node@20.19.41)(terser@5.47.1)
+      vite: 5.4.21(@types/node@20.19.41)(terser@5.48.0)
     transitivePeerDependencies:
       - '@types/node'
       - less
@@ -9218,18 +9326,18 @@ snapshots:
       - supports-color
       - terser
 
-  vite-plugin-pwa@0.19.8(vite@5.4.21(@types/node@20.19.41)(terser@5.47.1))(workbox-build@7.4.1)(workbox-window@7.4.1):
+  vite-plugin-pwa@0.19.8(vite@5.4.21(@types/node@20.19.41)(terser@5.48.0))(workbox-build@7.4.1)(workbox-window@7.4.1):
     dependencies:
       debug: 4.4.3
       fast-glob: 3.3.3
       pretty-bytes: 6.1.1
-      vite: 5.4.21(@types/node@20.19.41)(terser@5.47.1)
+      vite: 5.4.21(@types/node@20.19.41)(terser@5.48.0)
       workbox-build: 7.4.1
       workbox-window: 7.4.1
     transitivePeerDependencies:
       - supports-color
 
-  vite@5.4.21(@types/node@20.19.41)(terser@5.47.1):
+  vite@5.4.21(@types/node@20.19.41)(terser@5.48.0):
     dependencies:
       esbuild: 0.21.5
       postcss: 8.5.14
@@ -9237,9 +9345,9 @@ snapshots:
     optionalDependencies:
       '@types/node': 20.19.41
       fsevents: 2.3.3
-      terser: 5.47.1
+      terser: 5.48.0
 
-  vitest@1.6.1(@types/node@20.19.41)(@vitest/ui@1.6.1)(happy-dom@14.12.3)(terser@5.47.1):
+  vitest@1.6.1(@types/node@20.19.41)(@vitest/ui@1.6.1)(happy-dom@14.12.3)(terser@5.48.0):
     dependencies:
       '@vitest/expect': 1.6.1
       '@vitest/runner': 1.6.1
@@ -9258,8 +9366,8 @@ snapshots:
       strip-literal: 2.1.1
       tinybench: 2.9.0
       tinypool: 0.8.4
-      vite: 5.4.21(@types/node@20.19.41)(terser@5.47.1)
-      vite-node: 1.6.1(@types/node@20.19.41)(terser@5.47.1)
+      vite: 5.4.21(@types/node@20.19.41)(terser@5.48.0)
+      vite-node: 1.6.1(@types/node@20.19.41)(terser@5.48.0)
       why-is-node-running: 2.3.0
     optionalDependencies:
       '@types/node': 20.19.41
