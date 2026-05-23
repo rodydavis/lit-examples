@@ -18,7 +18,7 @@
     "@capacitor/core": "latest",
     "@capacitor/ios": "^3.4.0",
     "@capacitor/splash-screen": "latest",
-    "@capacitor/status-bar": "^1.0.7",
+    "@capacitor/status-bar": "^8.0.2",
     "@material/mwc-button": "^0.25.3",
     "@material/mwc-dialog": "^0.21.0",
     "@material/mwc-drawer": "^0.21.0",
