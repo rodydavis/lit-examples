@@ -1,0 +1,1 @@
+import{a as o,b as l,i as p}from"./lit-element-BUNo9pnf.js";import{t as g}from"./custom-element-BhZVzxrc.js";var v=Object.getOwnPropertyDescriptor,d=(s,n,m,i)=>{for(var e=i>1?void 0:i?v(n,m):n,t=s.length-1,a;t>=0;t--)(a=s[t])&&(e=a(e)||e);return e};let r=class extends o{render(){return l`Admin Settings`}};r.styles=p``;r=d([g("admin-settings")],r);export{r as AdminSettings};
