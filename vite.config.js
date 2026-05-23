@@ -13,7 +13,7 @@ function getHtmlEntries() {
 
   const rootDirs = fs.readdirSync(__dirname);
   for (const dir of rootDirs) {
-    if (['.git', '.github', 'node_modules', 'dist', 'lit-components', 'lit-showcase', 'tests'].includes(dir)) continue;
+    if (['.git', '.gitea', 'node_modules', 'dist', 'lit-components', 'lit-showcase', 'tests'].includes(dir)) continue;
 
     const fullPath = resolve(__dirname, dir);
     if (!fs.statSync(fullPath).isDirectory()) continue;
