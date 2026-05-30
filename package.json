@@ -12,7 +12,7 @@
   "dependencies": {
     "@ar-js-org/ar.js": "^3.4.0-alpha-rc2",
     "@babel/polyfill": "^7.12.1",
-    "@capacitor-community/electron": "^4.0.3",
+    "@capacitor-community/electron": "^5.0.1",
     "@capacitor/android": "^3.4.0",
     "@capacitor/camera": "latest",
     "@capacitor/core": "latest",
