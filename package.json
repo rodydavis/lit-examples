@@ -41,7 +41,7 @@
     "pouchdb-adapter-idb": "^7.2.2",
     "pouchdb-browser": "^7.2.2",
     "pouchdb-utils": "^7.2.2",
-    "preact": "^10.6.4",
+    "preact": "^10.29.2",
     "preact-iso": "^2.3.0",
     "rxdb": "^9.21.0",
     "rxjs": "^7.2.0",
