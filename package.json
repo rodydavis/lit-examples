@@ -43,7 +43,7 @@
     "pouchdb-utils": "^7.2.2",
     "preact": "^10.6.4",
     "preact-iso": "^2.3.0",
-    "rxdb": "^9.21.0",
+    "rxdb": "^17.3.0",
     "rxjs": "^7.2.0",
     "standardized-audio-context": "^25.3.4",
     "three": "^0.139.2",
