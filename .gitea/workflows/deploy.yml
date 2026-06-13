@@ -27,14 +27,11 @@ jobs:
         with:
           version: 9.7.1
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
+      - name: Set up Bazel Environment
+        uses: rodydavis/shared-actions/setup-bazel@main
         with:
-          node-version: 24
+          node_version: '24'
           cache: 'pnpm'
-
-      - name: Set up Bazel (Bazelisk)
-        run: npm install -g @bazel/bazelisk
 
       - name: Install dependencies
         run: pnpm install --no-frozen-lockfile
