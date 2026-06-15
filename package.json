@@ -21,7 +21,7 @@
     "@capacitor/status-bar": "^1.0.7",
     "@material/mwc-button": "^0.25.3",
     "@material/mwc-dialog": "^0.21.0",
-    "@material/mwc-drawer": "^0.21.0",
+    "@material/mwc-drawer": "^0.27.0",
     "@material/mwc-icon": "^0.25.3",
     "@material/mwc-icon-button": "^0.21.0",
     "@material/mwc-list": "^0.21.0",
