@@ -42,9 +42,11 @@ jobs:
       - name: Build Site
         run: pnpm run build --base=/rodydavis/lit-examples/
 
-      - name: Deploy Docs
-        uses: peaceiris/actions-gh-pages@v4
+      - name: Deploy Static Pages
+        if: github.event_name != 'pull_request'
+        uses: https://git.rodydavis.dev/rodydavis/shared-actions/pages-deploy@main
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          force_orphan: true
-          publish_dir: dist
+          path: './dist'
+          domain: 'lit-examples.rodydavis.dev'
+          git_token: ${{ secrets.GIT_TOKEN }}
+          ssh_key: ${{ secrets.TRUENAS_SSH_KEY }}

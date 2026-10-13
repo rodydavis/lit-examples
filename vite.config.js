@@ -157,7 +157,7 @@ const externalizeMissingPlugin = () => {
 };
 
 export default defineConfig({
-  base: '/rodydavis/lit-examples/',
+  base: '/',
   plugins: [mpaHtmlPlugin(), tsResolvePlugin(), externalizeMissingPlugin()],
   resolve: {
     alias: {
