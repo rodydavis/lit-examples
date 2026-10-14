@@ -27,17 +27,14 @@ jobs:
         with:
           version: 9.15.9
 
-      - name: Set up Bazel Environment
-        uses: https://git.rodydavis.dev/rodydavis/shared-actions/setup-bazel@main
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
         with:
-          node_version: '24'
+          node-version: '24'
           cache: 'pnpm'
 
       - name: Install dependencies
         run: pnpm install --no-frozen-lockfile
-
-      - name: Verify Hermetic Bazel Build
-        run: bazel build //...
 
       - name: Build Site
         run: pnpm run build --base=/rodydavis/lit-examples/

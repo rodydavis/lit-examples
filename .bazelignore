@@ -1,7 +1,0 @@
-# Generated and managed by Antigravity
-.gitea
-.github
-dist
-lit-native/.vscode
-node_modules
-vite-lit-element-starter/build
